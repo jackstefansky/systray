@@ -17,11 +17,11 @@ enum ActionType {
 /*
 * Root systray entry
 * */
-class MainEntry{
+class MainEntry {
   final String title;
   final String iconPath;
 
-  MainEntry({this.title="", this.iconPath=""});
+  MainEntry({this.title = "", this.iconPath = ""});
 
   Map<String, String> serialize() {
     return <String, String>{
@@ -39,16 +39,12 @@ class SystrayAction {
   SystrayAction({this.name, this.label, this.actionType});
 
   Map<String, String?> serialize() {
-    return <String, String?>{
-      "name": this.name,
-      "label": this.label,
-      "actionType": this.actionType!.index.toString()
-    };
+    return <String, String?>{"name": this.name, "label": this.label, "actionType": this.actionType!.index.toString()};
   }
 }
 
 class Systray {
-  static const MethodChannel _channel = const MethodChannel('plugins.flutter.io/flutter_systray');
+  static const MethodChannel _channel = const MethodChannel('plugins.sonr.io/systray');
   final _handlers = <String, Function>{};
   bool _initialized = false;
 
@@ -83,7 +79,7 @@ class Systray {
     List<Map<String, String?>> result = <Map<String, String>>[];
 
     actions.forEach((SystrayAction element) {
-       result.add(element.serialize());
+      result.add(element.serialize());
     });
 
     return result;

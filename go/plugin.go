@@ -11,7 +11,7 @@ import (
 	"github.com/go-gl/glfw/v3.3/glfw"
 )
 
-const channelName = "plugins.flutter.io/systray"
+const channelName = "plugins.sonr.io/systray"
 
 // SystrayPlugin implements flutter.Plugin and handles method.
 type SystrayPlugin struct {
