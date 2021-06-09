@@ -1,6 +1,6 @@
 // +build linux
 
-package flutter_systray
+package systray
 
 import (
 	"fmt"

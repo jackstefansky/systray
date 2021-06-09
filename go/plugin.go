@@ -1,19 +1,20 @@
-package flutter_systray
+package systray
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
+
 	"github.com/go-flutter-desktop/go-flutter"
 	"github.com/go-flutter-desktop/go-flutter/plugin"
 	"github.com/go-gl/glfw/v3.3/glfw"
-	"io/ioutil"
 )
 
-const channelName = "plugins.flutter.io/flutter_systray"
+const channelName = "plugins.flutter.io/systray"
 
-// FlutterSystrayPlugin implements flutter.Plugin and handles method.
-type FlutterSystrayPlugin struct {
+// SystrayPlugin implements flutter.Plugin and handles method.
+type SystrayPlugin struct {
 	window  *glfw.Window
 	channel *plugin.MethodChannel
 }
@@ -43,23 +44,23 @@ type SystrayAction struct {
 	ActionType ActionEnumType
 }
 
-var _ flutter.Plugin = &FlutterSystrayPlugin{} // compile-time type check
+var _ flutter.Plugin = &SystrayPlugin{} // compile-time type check
 
 // InitPluginGLFW initializes the GLFW
-func (p *FlutterSystrayPlugin) InitPluginGLFW(window *glfw.Window) error {
+func (p *SystrayPlugin) InitPluginGLFW(window *glfw.Window) error {
 	p.window = window
 	return nil
 }
 
 // InitPlugin initializes the plugin.
-func (p *FlutterSystrayPlugin) InitPlugin(messenger plugin.BinaryMessenger) error {
+func (p *SystrayPlugin) InitPlugin(messenger plugin.BinaryMessenger) error {
 	p.channel = plugin.NewMethodChannel(messenger, channelName, plugin.StandardMethodCodec{})
 	p.channel.HandleFuncSync("initSystray", p.initSystrayHandler)
 	p.channel.HandleFunc("updateMenu", p.updateMenuHandler)
 	return nil
 }
 
-func (p *FlutterSystrayPlugin) initSystrayHandler(arguments interface{}) (reply interface{}, err error) {
+func (p *SystrayPlugin) initSystrayHandler(arguments interface{}) (reply interface{}, err error) {
 	// Convert the params into SystrayAction type list
 	var mainEntry MainEntry
 	err = json.Unmarshal([]byte(arguments.(string)), &mainEntry)
@@ -92,7 +93,7 @@ func (p *FlutterSystrayPlugin) initSystrayHandler(arguments interface{}) (reply 
 	return "ok", nil
 }
 
-func (p *FlutterSystrayPlugin) updateMenuHandler(arguments interface{}) (reply interface{}, err error) {
+func (p *SystrayPlugin) updateMenuHandler(arguments interface{}) (reply interface{}, err error) {
 	var actions []SystrayAction
 	err = json.Unmarshal([]byte(arguments.(string)), &actions)
 	if err != nil {
@@ -105,19 +106,19 @@ func (p *FlutterSystrayPlugin) updateMenuHandler(arguments interface{}) (reply i
 	return "ok", nil
 }
 
-func (p *FlutterSystrayPlugin) focusHandler(action *SystrayAction) func() {
+func (p *SystrayPlugin) focusHandler(action *SystrayAction) func() {
 	return func() {
 		p.window.Show()
 	}
 }
 
-func (p *FlutterSystrayPlugin) closeHandler(action *SystrayAction) func() {
+func (p *SystrayPlugin) closeHandler(action *SystrayAction) func() {
 	return func() {
 		p.window.SetShouldClose(true)
 	}
 }
 
-func (p *FlutterSystrayPlugin) eventHandler(action *SystrayAction) func() {
+func (p *SystrayPlugin) eventHandler(action *SystrayAction) func() {
 	return func() {
 		err := p.invokeSystrayEvent(action)
 		if err != nil {
@@ -126,7 +127,7 @@ func (p *FlutterSystrayPlugin) eventHandler(action *SystrayAction) func() {
 	}
 }
 
-func (p *FlutterSystrayPlugin) invokeSystrayEvent(action *SystrayAction) error {
+func (p *SystrayPlugin) invokeSystrayEvent(action *SystrayAction) error {
 	err := p.channel.InvokeMethod("systrayEvent", action.Name)
 	if err != nil {
 		return err

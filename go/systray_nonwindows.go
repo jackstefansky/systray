@@ -1,10 +1,10 @@
 // +build linux darwin !windows
 
-package flutter_systray
+package systray
 
 import "github.com/shurcooL/trayhost"
 
-func (p *FlutterSystrayPlugin) actionsToMenu(actions []SystrayAction) ([]trayhost.MenuItem, error) {
+func (p *SystrayPlugin) actionsToMenu(actions []SystrayAction) ([]trayhost.MenuItem, error) {
 	var items []trayhost.MenuItem
 
 	for _, action := range actions {

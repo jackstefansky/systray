@@ -1,11 +1,11 @@
 // +build darwin
 
-package flutter_systray
+package systray
 
 import "github.com/shurcooL/trayhost"
 import "fmt"
 
-func (p *FlutterSystrayPlugin) updateMenu(actions []SystrayAction) {
+func (p *SystrayPlugin) updateMenu(actions []SystrayAction) {
 	items, err := p.actionsToMenu(actions)
 	if err != nil {
 		fmt.Println("An error has occurred while registering actions", err)

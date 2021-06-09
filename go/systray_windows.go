@@ -1,6 +1,6 @@
 // +build windows !linux !darwin
 
-package flutter_systray
+package systray
 
 import (
 	"github.com/r10v/systray"
