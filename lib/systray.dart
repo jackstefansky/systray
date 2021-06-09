@@ -47,12 +47,12 @@ class SystrayAction {
   }
 }
 
-class FlutterSystray {
+class Systray {
   static const MethodChannel _channel = const MethodChannel('plugins.flutter.io/flutter_systray');
   final _handlers = <String, Function>{};
   bool _initialized = false;
 
-  FlutterSystray.init() {
+  Systray.init() {
     _channel.setMethodCallHandler((MethodCall methodCall) async {
       if (methodCall.method == "systrayEvent") {
         Function? handler = _handlers[methodCall.arguments];

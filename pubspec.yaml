@@ -1,8 +1,8 @@
-name: flutter_systray
+name: systray
 description: A new flutter plugin project.
 version: 0.4.1
 author: Janez Štupar
-homepage: https://github.com/sonr-io/flutter_systray
+homepage: https://github.com/sonr-io/systray
 
 environment:
   sdk: '>=2.12.0 <3.0.0'

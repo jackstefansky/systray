@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_systray/flutter_systray.dart';
+import 'package:systray/systray.dart';
 import 'package:path/path.dart' as p;
 
 void main() async {
@@ -22,8 +22,8 @@ void main() async {
   );
 
   // We first init the systray menu and then add the menu entries
-  await FlutterSystray.initSystray(main);
-  await FlutterSystray.updateMenu([
+  await Systray.initSystray(main);
+  await Systray.updateMenu([
     SystrayAction(
         name: "focus",
         label: "Focus",
@@ -45,7 +45,7 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   // Register an event handler
-  final FlutterSystray systemTray = FlutterSystray.init();
+  final Systray systemTray = Systray.init();
 
   @override
   _MyAppState createState() => _MyAppState();
