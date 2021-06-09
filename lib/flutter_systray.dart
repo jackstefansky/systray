@@ -32,17 +32,17 @@ class MainEntry{
 }
 
 class SystrayAction {
-  final ActionType actionType;
-  final String name;
-  final String label;
+  final ActionType? actionType;
+  final String? name;
+  final String? label;
 
   SystrayAction({this.name, this.label, this.actionType});
 
-  Map<String, String> serialize() {
-    return <String, String>{
+  Map<String, String?> serialize() {
+    return <String, String?>{
       "name": this.name,
       "label": this.label,
-      "actionType": this.actionType.index.toString()
+      "actionType": this.actionType!.index.toString()
     };
   }
 }
@@ -55,7 +55,7 @@ class FlutterSystray {
   FlutterSystray.init() {
     _channel.setMethodCallHandler((MethodCall methodCall) async {
       if (methodCall.method == "systrayEvent") {
-        Function handler = _handlers[methodCall.arguments];
+        Function? handler = _handlers[methodCall.arguments];
         if (handler != null) {
           handler();
         }
@@ -67,20 +67,20 @@ class FlutterSystray {
   /*
   * Show a systray icon
   * */
-  static Future<String> initSystray(MainEntry main) async {
-    String value = await _channel.invokeMethod('initSystray', jsonEncode(main.serialize()));
+  static Future<String?> initSystray(MainEntry main) async {
+    String? value = await _channel.invokeMethod('initSystray', jsonEncode(main.serialize()));
     return value;
   }
 
-  static Future<String> updateMenu(List<SystrayAction> actions) async {
-    List<Map<String, String>> map = _serializeActions(actions);
+  static Future<String?> updateMenu(List<SystrayAction> actions) async {
+    List<Map<String, String?>> map = _serializeActions(actions);
     String json = jsonEncode(map);
-    String value = await _channel.invokeMethod('updateMenu', json);
+    String? value = await _channel.invokeMethod('updateMenu', json);
     return value;
   }
 
-  static List<Map<String, String>> _serializeActions(List<SystrayAction> actions) {
-    var result = <Map<String, String>>[];
+  static List<Map<String, String?>> _serializeActions(List<SystrayAction> actions) {
+    List<Map<String, String?>> result = <Map<String, String>>[];
 
     actions.forEach((SystrayAction element) {
        result.add(element.serialize());
