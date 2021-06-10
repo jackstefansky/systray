@@ -1,6 +1,6 @@
 name: systray
 description: Forked Null Safe version of flutter_systray
-version: 0.5.2
+version: 0.5.3
 homepage: https://github.com/sonr-io/systray
 
 environment:

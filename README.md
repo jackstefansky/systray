@@ -21,7 +21,7 @@ import "github.com/sonr-io/systray"
 
 Then add the following option to your go-flutter [application options](https://github.com/go-flutter-desktop/go-flutter/wiki/Plugin-info):
 ```go
-flutter.AddPlugin(&flutter_systray.FlutterSystrayPlugin{})
+flutter.AddPlugin(&systray.SystrayPlugin{})
 ```
 ## API
 
