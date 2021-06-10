@@ -1,3 +1,6 @@
+## 0.5.2
+Made Null Safe. Original Repo: https://pub.dev/packages/flutter_systray
+
 ## 0.4.0
 Settle with r10v systray fork for now
 
