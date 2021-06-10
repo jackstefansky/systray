@@ -1,3 +1,6 @@
+## 0.5.3
+Updated Readme for Renamed Symbols.
+
 ## 0.5.2
 Made Null Safe. Original Repo: https://pub.dev/packages/flutter_systray
 
