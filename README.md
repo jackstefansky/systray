@@ -8,13 +8,15 @@ This plugin implements limited support. There are no submenus, checkboxes and su
 
 Don't forget to check the example app!
 
+This plugin has been forked from [Janez Štupar](https://github.com/JanezStupar/flutter_systray)
+
 ## Getting Started
 
 Install the plugin as is customary.
 
 Import as:
 ```go
-import "github.com/JanezStupar/flutter_systray"
+import "github.com/sonr-io/systray"
 ```
 
 Then add the following option to your go-flutter [application options](https://github.com/go-flutter-desktop/go-flutter/wiki/Plugin-info):
@@ -30,8 +32,8 @@ MainEntry main = MainEntry(
   iconPath: path,
 );
 
-FlutterSystray.initSystray(main).then((result) {
-    FlutterSystray.updateMenu([
+Systray.initSystray(main).then((result) {
+    Systray.updateMenu([
       SystrayAction(
           name: "focus",
           label: "Focus",
@@ -42,12 +44,12 @@ FlutterSystray.initSystray(main).then((result) {
 });
 ```
 `MainEntry` - represents the root node of the systray menu. It can have an icon (Win, Linux, Mac) or/and a title and tooltip (Mac).
-`[]SystrayAction` - a list of systray menu actions. Actions can have an icon, title and tooltip. Name serves as unique identifier. 
+`[]SystrayAction` - a list of systray menu actions. Actions can have an icon, title and tooltip. Name serves as unique identifier.
 
 
 To change the actions we can call `updateMenu` function, note that updateMenu will replace existing menu items:
 ```dart
-FlutterSystray.updateMenu([
+Systray.updateMenu([
 SystrayAction(
     name: "counterEvent",
     label: "Counter event",
@@ -66,8 +68,8 @@ SystrayAction(
 ```
 
 We can also register callback handlers for events triggered by systray:
-```dart 
-FlutterSystray systemTray = FlutterSystray.init();
+```dart
+Systray systemTray = FlutterSystray.init();
 systemTray.registerEventHandler("counterEvent", () {
   setState(() {
     _counter += 1;
