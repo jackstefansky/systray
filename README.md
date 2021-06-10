@@ -1,4 +1,4 @@
-# flutter_systray
+# systray
 
 Flutter Systray is a plugin for `go-flutter-desktop` that enables support for systray menu for desktop flutter apps.
 
