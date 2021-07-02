@@ -2,7 +2,7 @@
 
 package systray
 
-import "github.com/shurcooL/trayhost"
+import "github.com/jackstefansky/trayhost"
 import "fmt"
 
 func (p *SystrayPlugin) updateMenu(actions []SystrayAction) {

@@ -1,84 +1,62 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:systray/systray.dart';
-import 'package:path/path.dart' as p;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Windows need .ico file
-  String path;
-  if (Platform.isWindows) {
-    path = p.absolute('go\\assets', 'icon.ico');
-  } else {
-    path = p.absolute('go/assets', 'icon.png');
-  }
-
-  // root Systray entry
-  MainEntry main = MainEntry(
-    title: "title",
-    iconPath: path,
-  );
-
-  // We first init the systray menu and then add the menu entries
-  await Systray.initSystray(main);
-  await Systray.updateMenu([
-    SystrayAction(
-        name: "focus",
-        label: "Focus",
-        actionType: ActionType.Focus),
-    SystrayAction(
-        name: "counterEvent",
-        label: "Counter event",
-        actionType: ActionType.SystrayEvent),
-    SystrayAction(
-        name: "systrayEvent2",
-        label: "Event 2",
-        actionType: ActionType.SystrayEvent),
-    SystrayAction(
-        name: "quit", label: "Quit", actionType: ActionType.Quit)
-  ]);
-
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  // Register an event handler
-  final Systray systemTray = Systray.init();
-
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  int _counter = 0;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: Colors.white,
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Flutter systray example app'),
         ),
         body: Center(
           child: Text(
-              'There should be a menu with a Hover icon in the systray.\n\n Number of times that the counter was triggered: $_counter '),
+              'There should be a menu with a Hover icon in the systray.\n\n Number of times that the counter was triggered:  '),
         ),
       ),
     );
   }
 
+  String iconPath = "/Users/jackstefansky/Desktop/current_time.png";
   @override
   void initState() {
+    super.initState();
 
-    // Setup a callback for systray triggered event
-    widget.systemTray.registerEventHandler("counterEvent", () {
-      setState(() {
-        _counter += 1;
-      });
+    MainEntry main = MainEntry(title: "title", iconPath: iconPath);
+
+    Systray.initSystray(main).then((result) {
+      Systray.updateMenu([
+        SystrayAction(
+          name: "focus",
+          label: "Focus",
+          actionType: ActionType.Focus,
+        ),
+      ]);
     });
 
-    super.initState();
+    Timer.periodic(Duration(seconds: 2), (timer) {
+      if (iconPath == "/Users/jackstefansky/Desktop/current_time.png") {
+        iconPath = "/Users/jackstefansky/Desktop/test.png";
+      } else {
+        iconPath = "/Users/jackstefansky/Desktop/current_time.png";
+      }
+
+      Systray.updateStatusItemIcon(MainEntry(
+        title: "title",
+        iconPath: iconPath,
+      ));
+    });
   }
 }

@@ -68,6 +68,13 @@ class Systray {
     return value;
   }
 
+  static Future<String> updateStatusItemIcon(MainEntry main) async {
+    String value = await _channel.invokeMethod('updateStatusItemIcon', jsonEncode(main.serialize()));
+    return value;
+  }
+
+
+
   static Future<String> updateMenu(List<SystrayAction> actions) async {
     List<Map<String, String>> map = _serializeActions(actions);
     String json = jsonEncode(map);

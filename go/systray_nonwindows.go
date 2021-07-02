@@ -2,7 +2,7 @@
 
 package systray
 
-import "github.com/shurcooL/trayhost"
+import "github.com/jackstefansky/trayhost"
 
 func (p *SystrayPlugin) actionsToMenu(actions []SystrayAction) ([]trayhost.MenuItem, error) {
 	var items []trayhost.MenuItem

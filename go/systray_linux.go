@@ -4,7 +4,7 @@ package systray
 
 import (
 	"fmt"
-	"github.com/shurcooL/trayhost"
+	"github.com/jackstefansky/trayhost"
 )
 
 func (p *FlutterSystrayPlugin) updateMenu(actions []SystrayAction) {

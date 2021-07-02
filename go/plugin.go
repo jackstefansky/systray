@@ -56,6 +56,7 @@ func (p *SystrayPlugin) InitPluginGLFW(window *glfw.Window) error {
 func (p *SystrayPlugin) InitPlugin(messenger plugin.BinaryMessenger) error {
 	p.channel = plugin.NewMethodChannel(messenger, channelName, plugin.StandardMethodCodec{})
 	p.channel.HandleFuncSync("initSystray", p.initSystrayHandler)
+	p.channel.HandleFuncSync("updateStatusItemIcon", p.updateStatusItemIconHandler)
 	p.channel.HandleFunc("updateMenu", p.updateMenuHandler)
 	return nil
 }
@@ -89,6 +90,39 @@ func (p *SystrayPlugin) initSystrayHandler(arguments interface{}) (reply interfa
 	}
 
 	initialize(title, iconData)
+
+	return "ok", nil
+}
+
+func (p *SystrayPlugin) updateStatusItemIconHandler(arguments interface{}) (reply interface{}, err error) {
+	// Convert the params into SystrayAction type list
+	var mainEntry MainEntry
+	err = json.Unmarshal([]byte(arguments.(string)), &mainEntry)
+	if err != nil {
+		fmt.Println("Failed to parse arguments: ", err)
+		return nil, errors.New("failed to parse json")
+	}
+
+	var iconData []byte
+	var title string
+
+	if len(mainEntry.IconPath) > 0 {
+		var data []byte
+		data, err := parseIcon(mainEntry.IconPath)
+		if err != nil {
+			fmt.Println(fmt.Sprintf("An error has occurred while parsing the icon: %s", err))
+		}
+
+		if data != nil {
+			iconData = data
+		}
+	}
+
+	if len(mainEntry.Title) > 0 {
+		title = mainEntry.Title
+	}
+
+	p.updateStatusItemIcon(iconData)
 
 	return "ok", nil
 }

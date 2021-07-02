@@ -2,7 +2,7 @@
 
 Flutter Systray is a plugin for `go-flutter-desktop` that enables support for systray menu for desktop flutter apps.
 
-Supports `MacOS`, `Windows` and `Linux` platforms via [`trayhost`](https://github.com/shurcooL/trayhost)
+Supports `MacOS`, `Windows` and `Linux` platforms via [`trayhost`](https://github.com/jackstefansky/trayhost)
 
 This plugin implements limited support. There are no submenus, checkboxes and such. PRs are welcome.
 
