@@ -1,0 +1,4 @@
+/Users/jackstefansky/Documents/flutter_packages/systray/example/hello_library/CMakeFiles/rebuild_cache.dir
+/Users/jackstefansky/Documents/flutter_packages/systray/example/hello_library/CMakeFiles/edit_cache.dir
+/Users/jackstefansky/Documents/flutter_packages/systray/example/hello_library/CMakeFiles/hello_test.dir
+/Users/jackstefansky/Documents/flutter_packages/systray/example/hello_library/CMakeFiles/hello_library.dir

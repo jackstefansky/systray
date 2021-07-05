@@ -104,7 +104,6 @@ func (p *SystrayPlugin) updateStatusItemIconHandler(arguments interface{}) (repl
 	}
 
 	var iconData []byte
-	var title string
 
 	if len(mainEntry.IconPath) > 0 {
 		var data []byte
@@ -118,11 +117,7 @@ func (p *SystrayPlugin) updateStatusItemIconHandler(arguments interface{}) (repl
 		}
 	}
 
-	if len(mainEntry.Title) > 0 {
-		title = mainEntry.Title
-	}
-
-	p.updateStatusItemIcon(iconData)
+	updateStatusItemIcon(iconData)
 
 	return "ok", nil
 }

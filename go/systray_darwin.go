@@ -2,8 +2,11 @@
 
 package systray
 
-import "github.com/jackstefansky/trayhost"
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/jackstefansky/trayhost"
+)
 
 func (p *SystrayPlugin) updateMenu(actions []SystrayAction) {
 	items, err := p.actionsToMenu(actions)
@@ -16,4 +19,8 @@ func (p *SystrayPlugin) updateMenu(actions []SystrayAction) {
 
 func initialize(title string, iconData []byte) {
 	trayhost.Initialize(title, iconData, nil)
+}
+
+func updateStatusItemIcon(iconData []byte) {
+	trayhost.UpdateStatusItemIcon(iconData)
 }

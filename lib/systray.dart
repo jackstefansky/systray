@@ -36,53 +36,77 @@ class SystrayAction {
   final String name;
   final String label;
 
-  SystrayAction({required this.name, required this.label, required this.actionType});
+  SystrayAction(
+      {required this.name, required this.label, required this.actionType});
 
   Map<String, String> serialize() {
-    return <String, String>{"name": this.name, "label": this.label, "actionType": this.actionType.index.toString()};
+    return <String, String>{
+      "name": this.name,
+      "label": this.label,
+      "actionType": this.actionType.index.toString()
+    };
   }
 }
 
 class Systray {
-  static const MethodChannel _channel = const MethodChannel('plugins.sonr.io/systray');
-  final _handlers = <String, Function>{};
-  bool _initialized = false;
+  static const MethodChannel _channel =
+      const MethodChannel('plugins.sonr.io/systray');
+  static final handlers = <String, Function>{};
+  static bool initialized = false;
 
   Systray.init() {
     _channel.setMethodCallHandler((MethodCall methodCall) async {
       if (methodCall.method == "systrayEvent") {
-        Function? handler = _handlers[methodCall.arguments];
+        print('RECIEVED SOMETHING');
+        Function? handler = handlers[methodCall.arguments];
         if (handler != null) {
           handler();
         }
       }
     });
-    _initialized = true;
+    initialized = true;
   }
 
   /*
   * Show a systray icon
   * */
   static Future<String> initSystray(MainEntry main) async {
-    String value = await _channel.invokeMethod('initSystray', jsonEncode(main.serialize()));
+    String value = await _channel.invokeMethod(
+        'initSystray', jsonEncode(main.serialize()));
+
+    _channel.setMethodCallHandler((MethodCall methodCall) async {
+      if (methodCall.method == "systrayEvent") {
+                print('RECIEVED SOMETHING ${methodCall.arguments}');
+
+        Function? handler = handlers[methodCall.arguments];
+        print(handlers.length);
+        print(handler != null);
+        if (handler != null) {
+          handler();
+        }
+      }
+    });
+    initialized = true;
+
     return value;
   }
 
   static Future<String> updateStatusItemIcon(MainEntry main) async {
-    String value = await _channel.invokeMethod('updateStatusItemIcon', jsonEncode(main.serialize()));
+    String value = await _channel.invokeMethod(
+        'updateStatusItemIcon', jsonEncode(main.serialize()));
     return value;
   }
-
-
 
   static Future<String> updateMenu(List<SystrayAction> actions) async {
     List<Map<String, String>> map = _serializeActions(actions);
     String json = jsonEncode(map);
     String value = await _channel.invokeMethod('updateMenu', json);
+
     return value;
   }
 
-  static List<Map<String, String>> _serializeActions(List<SystrayAction> actions) {
+  static List<Map<String, String>> _serializeActions(
+      List<SystrayAction> actions) {
     List<Map<String, String>> result = <Map<String, String>>[];
 
     actions.forEach((SystrayAction element) {
@@ -92,11 +116,12 @@ class Systray {
     return result;
   }
 
-  registerEventHandler(String handlerKey, Function handler) {
-    if (_initialized == false) {
-      throw Exception("not initialized, call init() before registering event handlers");
+  static void registerEventHandler(String handlerKey, Function handler) {
+    if (initialized == false) {
+      throw Exception(
+          "not initialized, call init() before registering event handlers");
     }
 
-    _handlers[handlerKey] = handler;
+    handlers[handlerKey] = handler;
   }
 }

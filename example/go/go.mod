@@ -8,8 +8,8 @@ require (
 	github.com/getlantern/ops v0.0.0-20200403153110-8476b16edcd6 // indirect
 	github.com/go-flutter-desktop/go-flutter v0.43.0
 	github.com/go-gl/gl v0.0.0-20210501111010-69f74958bac0 // indirect
-	github.com/jackstefansky/systray/go v0.5.3
-	github.com/jackstefansky/trayhost v0.0.0-20210702125518-1109b464a3e6 // indirect
+	github.com/jackstefansky/systray/go v0.0.0-00010101000000-000000000000
+	github.com/jackstefansky/trayhost v0.0.0-20210702134855-5debfaaf4f3e // indirect
 	github.com/pkg/errors v0.9.1
 	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
 	golang.org/x/text v0.3.6 // indirect
